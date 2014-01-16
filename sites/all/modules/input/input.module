@@ -1,0 +1,52 @@
+<?php
+
+/**
+* @file
+* A module based on a tutorial - more info to come
+**/
+
+function input_menu() {
+	$items['input/examples'] = array(
+		'title' => 'Form API Examples',
+		'description' => 'Example of using the Form API.',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('input_simple_form'),
+		'access callback' => TRUE,
+		);
+	return $items;
+}
+
+function input_page() {
+	return drupal_get_form('input_simple_form');
+}
+
+/*
+* a simple form
+*/
+
+function input_simple_form($form, &$form_submit) {
+	$form['color'] = array(
+		'#title' => t('Favorite Color'),
+		'#type' => 'textfield',
+		'#required' => TRUE,
+		'#description' => t('What is your favorite color? Blue? no, wait-'),
+	);
+	$form['comments'] = array(
+		'#title' => t('Comments'),
+		'#type' => 'textarea',
+		'#required' => FALSE,
+		'#description' => t('Please leave your comments.	')
+
+	);
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => 'Submit',
+	);
+	// dpm($form);
+	return $form;
+}
+
+function input_page_form_submit ($form_id, $form_values) {
+	$message = 'You have submitted the ' . $form_id . ' form with the following data ' . print_r($form_values, true);
+	drupal_set_message(t($message));
+}

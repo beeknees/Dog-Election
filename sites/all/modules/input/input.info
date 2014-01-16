@@ -1,0 +1,3 @@
+name = Input
+description = Creating this module based on a form api tutorial
+core = 7.x
