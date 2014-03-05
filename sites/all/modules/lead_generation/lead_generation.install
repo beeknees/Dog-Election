@@ -1,37 +1,44 @@
 <?php
 
-/**
-* @file
-* A block displaying a lead generation form
-*/
-
-// function lead_generation_schema() {
-//   $schema = array();
-
-//   $schema['lead_generation'] = array(
-//     'descrition' == 'an example table',
-//     'fields' => array(
-//       'fe_id' => array(
-//         'descrition' => 'primary identifier',
-//         'type' => 'serial',
-//         'unsigned' => TRUE,
-//         'not null' => TRUE,
-//       ),
-//       'name' => array(
-//         '#title' => t('Name'),
-//         '#type' => 'textfield',
-//         '#required' => TRUE,
-//         '#description' => t('Type in your name'),
-//       ),
-//       'email' => array(
-//         '#title' => t('Email address'),
-//         '#type' => 'textfield',
-//       )
-//     )
-//     'primary key' => array('fe_id')
-//   );
-
-//   return $schema;
-// }
-
-/**
+function lead_generation_schema() {
+  $schema = array();
+  $schema['lead_generation'] = array(
+    
+    // Example (partial) specification for table lead_generation.
+    'description' => 'The base table for nodes.',
+    'fields' => array(
+      'fe_id' => array(
+        'description' => 'The primary identifier for my table.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'A field for storing the submitted name.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'email' => array(
+        'description' => 'A field for storing the submitted email address.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'number_things' => array(
+        'description' => 'A field for storing a number',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'lead_generation_name' => array('name'),
+    ),
+  'primary key' => array('lg_id'),
+  );
+  return $schema;
+}
