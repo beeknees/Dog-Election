@@ -108,7 +108,7 @@ function my_block_view() {
       '#type' => 'markup',
       '#markup' => $image,
     ),
-    );
+  );
 
   return $block;
 }
