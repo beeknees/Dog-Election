@@ -1,0 +1,114 @@
+<?php
+
+/**
+* @file
+* A block displaying a lead generation form
+*/
+
+function custom_block_block_info() {
+  $blocks = array();
+  $blocks['my_block'] = array(
+    'info' => t('my custom block'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure
+ **/
+
+function custom_block_block_configure($delta='') {
+  $form = array();
+
+  switch($delta) {
+    case 'my_block' :
+    $form['text_body'] = array(
+      '#type' => 'text_format',
+      '#title' => t('Enter your text here in WYSIWYG format'),
+      '#default_value' => variable_get('text_variable', ''),
+    );
+
+    $form['file'] = array(
+      '#name' => 'block_image',
+      '#type' => 'managed_file',
+      '#title' => t('choose an image file'),
+      '#description' => t('select an image for the custom block. only *.gif, *.jpeg, *.jpg and *.png allowed'),
+      '#default_value' => variable_get('block_image_fid', ''),
+      '#upload_location' => 'public://block_image/',
+      '#upload_validators' => array(
+        'file_validate_extensions' => array('gif png jpeg jpg'),
+      ),
+    );
+    break;
+  }
+  return $form;
+}
+
+/* file saving - implements hook_block_save() */
+function custom_block_block_save($delta = '', $edit = array()) {
+  switch($delta) {
+    case 'my_block' :
+    variable_set('text_variable', $edit['text_body']['value']);
+
+    //saving the file and setting it to a permanent state
+    $file = file_load($edit['file']);
+    $file->status = FILE_STATUS_PERMANENT;
+    file_save($file);
+    $block = block_load('custom_block', $delta);
+    file_usage_add($file, 'custom_block', 'block', $block->bid);
+    variable_set('block_image_fid', $file->fid);
+    
+    break;
+  }
+}
+
+/* build block output using hook_block_view() */
+
+function custom_block_block_view($delta='') {
+  $block = array();
+
+  switch($delta) {
+    case 'my_block' :
+    $block['content'] = my_block_view();
+    break;
+  }
+  return $block;
+}
+
+/**
+ * Custom function to assemble renderable array for block content.
+ * Returns a renderable array with the block content.
+ * 
+ *   returns a renderable array of block content.
+ */
+
+function my_block_view() {
+  $block = array();
+
+  $image_file = file_load(variable_get('block_image_fid', ''));
+  $image_path = '';
+
+  if (isset($image_file->uri)) {
+    $image_path = $image_file->uri;
+  }
+
+  $image = theme_image(array(
+
+    'path' => ($image_path),
+    'alt' => t('image description here'),
+    'title' => t('this is your block image'),
+    'attributes' => array('class' => 'class_name'),
+  ));
+
+  $text = variable_get('text_variable', '');
+
+  $block = array(
+    'image' => array(
+      '#prefix' => '<div class="class_name">',
+      '#type' => 'markup',
+      '#markup' => $image,
+    ),
+    );
+
+  return $block;
+}

@@ -5,82 +5,78 @@
 * A block displaying a lead generation form
 */
 
-// function lead_generation_help($path, $arg) {
-//   switch ($path) {
-//     case "admin/help#lead_generation":
-//     return '<p>' . t("A form that is used to generate leads for the candidate.") . '</p>';
-//     break;
-//   }
-// }
-
-function lead_generation_help($section) {
-  switch ($section) {
-    case 'admin/modules#description':
-      return t('A form to generate leads for the candidate.');
-  }
-}
-
-/* generate block */
-// function lead_generation_block_info() {
-//   $blocks['lead_generation'] = array (
-//     'info' => t('Lead Generation'),
-//     // default setting
-//     'cache' => DRUPAL_CACHE_PER_ROLE,
-//   );
-//   return $blocks;
-// }
-
-function lead_generation_menu($may_cache) {
-  $items[] = array();
-  if ($may_cache) {
-    $items[] = array (
-      'path' => 'form',
-      'title' => t('Tell us what you think'),
-      'callback' => 'lead_generation_page',
-      'access' => TRUE,
-      'type' => MENU_CALLBACK, 
-    );
-  }
+function lead_generation_menu() {
+  $items['vote-now'] = array(
+    'title' => 'Lead Generation Form',
+    'description' => 'A form to generate leads for a candidate.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('lead_generation_form'),
+    'access callback' => TRUE,
+  );
   return $items;
 }
+
+
+
+/**
+*  Generated page displaying a lead generation form
+*/
 
 function lead_generation_page() {
   return drupal_get_form('lead_generation_form');
 }
 
 
-function lead_generation_form() {
-  $form['fullname'] = array(
+/**
+* Block information to be displayed in the blocks list
+*/
+
+function lead_generation_block_info() {
+  $blocks = array();
+  $blocks['lead_generation_block'] = array(
+    'info' =>t('Lead Generation Block EEEEEEEEE'),
+  );
+  return $blocks; 
+}
+
+
+/**
+* The block view that pulls in the lead generation form
+*/
+
+function lead_generation_block_view($delta = '') {
+  $block = array();
+  switch($delta) {
+    case 'lead_generation_form' :
+    $block['subject'] = t('Vote now');
+
+    $block['content'] = drupal_get_form('lead_generation_form');
+    break;
+  }
+
+  return $block;
+}
+
+
+
+/**
+* Lead generation form
+*/
+
+function lead_generation_form($form, &$form_state) {
+  $form['name'] = array(
+    '#title' => t('Name'),
     '#type' => 'textfield',
-    '#title' => t('Enter your full name'),
+    '#required' => TRUE,
+    '#description' => t('Type in your name'),
+  );
+  $form['email'] = array(
+    '#title' => t('Email address'),
+    '#type' => 'textfield',
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Save'),
+    '#value' => 'Submit',
   );
   return $form;
 }
-
-function lead_generation_page_form_submit($form_id, $form_values) {
-  $message = 'You have submitted the ' . $form_id . ' form which contains the following data: ' . print_r($form_values, true);
-  drupal_set_message(T($message));
-}
-
-// function lead_generation_form($form, &$form_state) {
-//   $form['submit'] = array(
-//     '#type' => 'submit',
-//     '#value' => t('Submit'),
-//     );
-//   return $form;
-// }
-
-// function lead_generation_form_validate($form, &$form_state) {
-//   // validation logic
-// }
-
-// function lead_generation_form_submit($form, &$form_state) {
-//   // submission logic
-// }
-
-
-
