@@ -7,7 +7,7 @@ function lead_generation_schema() {
     // Example (partial) specification for table lead_generation.
     'description' => 'The base table for nodes.',
     'fields' => array(
-      'fe_id' => array(
+      'lg_id' => array(
         'description' => 'The primary identifier for my table.',
         'type' => 'serial',
         'unsigned' => TRUE,
@@ -26,13 +26,6 @@ function lead_generation_schema() {
         'length' => 50,
         'not null' => TRUE,
         'default' => '',
-      ),
-      'number_things' => array(
-        'description' => 'A field for storing a number',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
       ),
     ),
     'indexes' => array(
