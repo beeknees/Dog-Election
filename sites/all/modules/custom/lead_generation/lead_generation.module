@@ -83,17 +83,13 @@ function lead_generation_form($form, &$form_state) {
     '#title' => t('Name'),
     '#type' => 'textfield',
     '#required' => TRUE,
-    '#description' => t('Type in your name.'),
+    '#description' => t('Type in your name'),
   );
   $form['email'] = array(
     '#title' => t('Email address'),
     '#type' => 'textfield',
     '#required' => TRUE,
-<<<<<<< HEAD:sites/all/modules/custom/lead_generation/lead_generation.module
     '#description' => t('Type in your email address'),
-=======
-    '#description' => t('Type in your email address.'),
->>>>>>> FETCH_HEAD:sites/all/modules/lead_generation/lead_generation.module
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -115,10 +111,5 @@ function lead_generation_form_submit($form, &$form_state) {
   ))
   ->execute();
 
-<<<<<<< HEAD:sites/all/modules/custom/lead_generation/lead_generation.module
   drupal_set_message(t('Your vote has been added!'));
 }
-=======
-  drupal_set_messange(t('Your vote has been submitted!'));
-}
->>>>>>> FETCH_HEAD:sites/all/modules/lead_generation/lead_generation.module
