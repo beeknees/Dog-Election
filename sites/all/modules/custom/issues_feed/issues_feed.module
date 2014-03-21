@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Issues Feed feature.
+ */
+
+include_once 'issues_feed.features.inc';
